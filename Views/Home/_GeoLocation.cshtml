@@ -1,0 +1,75 @@
+﻿@model GeolocationResult
+
+
+
+<div class="row align-items-md-stretch">
+    <div class="col-md-6 ">
+        <div class="h-100 p-5 rounded-3 geoInfo">
+            <p>
+                <span>IP : </span>
+                <span>@Model.Query</span>
+            </p>
+            <p>
+                <span>Country : </span>
+                <span>@Model.Country</span>
+            </p>
+            <p>
+                <span>City : </span>
+                <span>@Model.City</span>
+            </p>
+            <p>
+                <span>ISP : </span>
+                <span>@Model.Isp</span>
+            </p>
+            <p>
+                <span>TimeZone : </span>
+                <span>@Model.Timezone</span>
+            </p>
+            <p>
+                <span>AS : </span>
+                <span>@Model.As</span>
+            </p>
+            <p>
+                <span>ZIP : </span>
+                <span>@Model.Zip</span>
+            </p>
+            <p>
+                <span>LAT : </span>
+                <span>@Model.Lat</span>
+            </p>
+            <p>
+                <span>LON : </span>
+                <span>@Model.Lon</span>
+            </p>
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="h-100 p-5 border rounded-3" id="map">
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var myAddress = new google.maps.LatLng(@Model.Lat, @Model.Lon);
+
+    //Create Options or set different Characteristics of Google Map
+    var mapOptions = {
+        center: myAddress,
+        zoom: 7,
+        //minZoom: 20,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    //Display the Google map in the div control with the defined Options
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+    //Set Marker on the Map
+    var marker = new google.maps.Marker({
+        position: myAddress,
+        animation: google.maps.Animation.BOUNCE,
+    });
+
+    marker.setMap(map);
+</script>

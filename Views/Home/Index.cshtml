@@ -1,0 +1,16 @@
+﻿@model GeolocationResult
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="text-center">
+    <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text" id="addon-wrapping">IP</span>
+        <input type="text" id="ipAddress" class="form-control" placeholder="5.195.182.24">
+        <a class="btn btn-success" style="width: 15%" id="ipAddressBtn">Click</a>
+    </div>
+    <div class="p-1 mb-4 bg-dark text-white rounded-3" id="geoLocationDiv">
+        <partial name="_GeoLocation" model="Model" />
+    </div>
+</div>
