@@ -1,4 +1,6 @@
-﻿namespace IPGeoLocation.Models
+﻿using System.Text.Json.Serialization;
+
+namespace IPGeoLocation.Models
 {
     public class GeolocationResult
     {
@@ -16,5 +18,8 @@
         public string Isp { get; set; }
         public string Org { get; set; }
         public string As { get; set; }
-}
+
+        [JsonIgnore]
+        public bool FromIndex { get; set; } = false;
+    }
 }

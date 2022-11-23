@@ -1,16 +1,24 @@
 ﻿@model GeolocationResult
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Find Your Ip Address";
+    ViewData["LoadScript"] = false;
 }
 
 
 <div class="text-center">
     <div class="input-group flex-nowrap mb-3">
-        <span class="input-group-text" id="addon-wrapping">IP</span>
-        <input type="text" id="ipAddress" class="form-control" placeholder="5.195.182.24">
-        <a class="btn btn-success" style="width: 15%" id="ipAddressBtn">Click</a>
+        <span class="input-group-text" id="addon-wrapping">IPV4/IPV6/Domain Name</span>
+        <input type="text" id="ipAddress" class="form-control" placeholder="5.195.182.24 or 2a01:4f8:1c0c:6ac3::1 or smardomi.ir">
+        <button type="button" class="btn btn-primary" style="width: 15%" id="ipAddressBtn">Search</button>
     </div>
     <div class="p-1 mb-4 bg-dark text-white rounded-3" id="geoLocationDiv">
-        <partial name="_GeoLocation" model="Model" />
+        <partial name="_GeoLocation" model="Model"/>
     </div>
 </div>
+
+@section Scripts
+    {
+    <script>
+        window.onload = initMap(@Model.Lat, @Model.Lon);
+    </script>
+}

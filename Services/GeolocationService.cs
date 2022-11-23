@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Net;
+using System.Net.Sockets;
+using System.Text.Json;
 using IPGeoLocation.Models;
 
 namespace IPGeoLocation.Services
@@ -16,14 +18,19 @@ namespace IPGeoLocation.Services
 
         #endregion
 
-        public async Task<GeolocationResult?> GetIpGeolocationAsync(string ip)
+        public async Task<GeolocationResult?> GetIpGeolocationAsync(string? ip)
         {
+            if (string.IsNullOrWhiteSpace(ip))
+            {
+               
+            }
+
             var response = await _client.GetAsync($"/json/{ip}");
 
             if (!response.IsSuccessStatusCode)
                 throw new ApplicationException($"Something went wrong calling the API: {response.ReasonPhrase}");
 
-            var dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var dataAsString = await response.Content.ReadAsStringAsync();
 
             return JsonSerializer.Deserialize<GeolocationResult>(dataAsString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }

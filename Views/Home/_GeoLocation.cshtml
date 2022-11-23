@@ -11,7 +11,11 @@
             </p>
             <p>
                 <span>Country : </span>
-                <span>@Model.Country</span>
+                <span class="ipbgstyle">@Model.Country - @Model.CountryCode</span>
+            </p>
+            <p>
+                <span>Region : </span>
+                <span>@Model.RegionName</span>
             </p>
             <p>
                 <span>City : </span>
@@ -19,15 +23,11 @@
             </p>
             <p>
                 <span>ISP : </span>
-                <span>@Model.Isp</span>
+                <span class="ipbgstyle">@Model.Isp</span>
             </p>
             <p>
                 <span>TimeZone : </span>
                 <span>@Model.Timezone</span>
-            </p>
-            <p>
-                <span>AS : </span>
-                <span>@Model.As</span>
             </p>
             <p>
                 <span>ZIP : </span>
@@ -50,26 +50,11 @@
     </div>
 </div>
 
+@if (!Model.FromIndex)
+{
+    <script>
+        window.onload = initMap(@Model.Lat, @Model.Lon);
+    </script>
+}
 
-<script>
-    var myAddress = new google.maps.LatLng(@Model.Lat, @Model.Lon);
 
-    //Create Options or set different Characteristics of Google Map
-    var mapOptions = {
-        center: myAddress,
-        zoom: 7,
-        //minZoom: 20,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    //Display the Google map in the div control with the defined Options
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-    //Set Marker on the Map
-    var marker = new google.maps.Marker({
-        position: myAddress,
-        animation: google.maps.Animation.BOUNCE,
-    });
-
-    marker.setMap(map);
-</script>

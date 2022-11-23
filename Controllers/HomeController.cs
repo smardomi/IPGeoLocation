@@ -19,8 +19,9 @@ namespace IPGeoLocation.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-            var geoLocation = await _geolocationService.GetIpGeolocationAsync(remoteIpAddress);
+            var ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+            var geoLocation = await _geolocationService.GetIpGeolocationAsync(ipAddress);
+            geoLocation.FromIndex = true;
             return View(geoLocation);
         }
 

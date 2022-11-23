@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - IPGeoLocation</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <script src="https://maps.googleapis.com/maps/api/js?"></script>
 </head>
 <body>
     <header>
@@ -21,7 +23,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        
+
                     </ul>
                 </div>
             </div>
@@ -35,13 +37,15 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - IPGeoLocation - <a href="https://smardomi.ir">Saeed Mardomi</a>
+            &copy; 2022 - IPGeoLocation - <a target="_blank" href="https://smardomi.ir">Saeed Mardomi</a>
         </div>
     </footer>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
