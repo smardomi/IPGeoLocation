@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using IPGeoLocation.Extensions;
 using IPGeoLocation.Models;
 
 namespace IPGeoLocation.Services
@@ -8,51 +9,39 @@ namespace IPGeoLocation.Services
     public class GeolocationService : IGeolocationService
     {
         #region ctor
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly HttpClient client;
 
-        private static readonly string GetExternalIpApi = "https://api.ipify.org";
-        private readonly HttpClient _client;
-
-        public GeolocationService(HttpClient httpClient)
+        public GeolocationService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
-            _client = httpClient;
+            client = httpClient;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         #endregion
 
-        public async Task<GeolocationResult?> GetIpGeolocationAsync(string? ip)
+        public async Task<GeolocationResult> GetIpGeolocationAsync(string? ip)
         {
-            if (string.IsNullOrWhiteSpace(ip))
-            {
-                ip = await GetExternalIpAddress();
-            }
+            ip = GetIpAddress(ip);
 
-            var response = await _client.GetAsync($"/json/{ip}");
+            var response = await client.GetAsync($"/json/{ip}");
 
             if (!response.IsSuccessStatusCode)
                 throw new ApplicationException($"Something went wrong calling the API: {response.ReasonPhrase}");
 
             var dataAsString = await response.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<GeolocationResult>(dataAsString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return JsonSerializer.Deserialize<GeolocationResult>(dataAsString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new GeolocationResult();
         }
 
-        private string GetLocalIpAddress()
+        private string GetIpAddress(string? ip)
         {
-            string strHostName = System.Net.Dns.GetHostName();
-            IPHostEntry ipEntry = System.Net.Dns.GetHostEntry(strHostName);
-            IPAddress[] addr = ipEntry.AddressList;
-            string ip = addr[2].ToString();
-            return ip;
-        }
-
-        public async Task<string> GetExternalIpAddress()
-        {
-            try
+            if (string.IsNullOrWhiteSpace(ip))
             {
-                var externalIp = await _client.GetStringAsync(GetExternalIpApi);
-                return externalIp;
+                ip = HttpExtension.GetClientIpAddress(httpContextAccessor);
             }
-            catch { return GetLocalIpAddress(); }
+
+            return ip;
         }
     }
 }

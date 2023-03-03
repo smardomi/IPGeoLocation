@@ -7,19 +7,19 @@ namespace IPGeoLocation.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IGeolocationService _geolocationService;
+        private readonly ILogger<HomeController> logger;
+        private readonly IGeolocationService geolocationService;
 
 
         public HomeController(ILogger<HomeController> logger, IGeolocationService geolocationService)
         {
-            _logger = logger;
-            _geolocationService = geolocationService;
+            this.logger = logger;
+            this.geolocationService = geolocationService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var geoLocation = await _geolocationService.GetIpGeolocationAsync(null);
+            var geoLocation = await geolocationService.GetIpGeolocationAsync(null);
             geoLocation.FromIndex = true;
             return View(geoLocation);
         }
@@ -39,7 +39,7 @@ namespace IPGeoLocation.Controllers
         [HttpGet]
         public async Task<IActionResult> GetIpGeoLocation(string ip)
         {
-            var geoLocation = await _geolocationService.GetIpGeolocationAsync(ip);
+            var geoLocation = await geolocationService.GetIpGeolocationAsync(ip);
             return PartialView("_GeoLocation", geoLocation);
         }
     }

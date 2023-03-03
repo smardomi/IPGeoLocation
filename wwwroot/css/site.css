@@ -17,10 +17,6 @@ html {
     min-height: 100%;
 }
 
-body {
-    /*margin-bottom: 60px;*/
-}
-
 
 .geoInfo {
     text-align: left !important;
@@ -37,7 +33,10 @@ body {
 .footer {
     padding: 15px;
     background-color: #212529;
-    color: white !important
+    color: white !important;
+    position: absolute;
+    bottom: 0;
+    width: 100%
 }
 
 .ipbgstyle {
